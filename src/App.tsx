@@ -5,12 +5,13 @@ import heroImg from "./assets/hero.png";
 import "./App.css";
 
 // main page
-import Main from "./features";
-
+import ProjectManager from "./app/project_manager";
+import BottomNav from "./app/navigation/bottom_nav";
 function App() {
   return (
     <div className="w-full h-full">
-      <Main />
+      <ProjectManager />
+      <BottomNav />
     </div>
   );
 }

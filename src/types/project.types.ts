@@ -3,7 +3,7 @@ export interface all_projects{
   projects: project[];
 }
 
-// about a specific project
+// about a specific project/ container 
 export interface project {
   title: string;
   description: string;

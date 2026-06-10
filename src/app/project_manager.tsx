@@ -13,9 +13,11 @@ import type {
   project,
 } from "../types/project.types";
 import Sidebar from "./project_manager/sidebar";
+import ContainerModal from "./project_manager/container_modal";
 
 export default function ProjectManager() {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  // all projects 
   const [all_projects, set_all_projects] = useState<all_projects>(() => {
     const savedProjects = localStorage.getItem("RileyProjects");
     if (savedProjects) {
@@ -23,13 +25,18 @@ export default function ProjectManager() {
     }
     return [];
   });
-  
+  // specific project
   const [active_project, set_active_project] = useState<project | null>(() => {
     if (all_projects.length > 0) {
       return all_projects[0];
     }
     return null;
   });
+
+  
+  const [containerModalOpen, setContainerModalOpen] = useState<boolean>(false);
+  // specific content inside a project 
+  const [active_project_content, set_active_project_content] = useState<project_content | null>(null);
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-gray-950">
@@ -103,6 +110,10 @@ export default function ProjectManager() {
               {active_project?.content?.map(
                 (item: project_content, index: number) => {
                   return (
+                    <div onClick={() => {
+                      set_active_project_content(item)
+                      setContainerModalOpen(true)
+                    }}>
                     <SpotlightCard
                       key={index}
                       className="custom-spotlight-card h-full p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 cursor-pointer flex flex-col group hover:-translate-y-1 hover:border-white/20"
@@ -135,13 +146,18 @@ export default function ProjectManager() {
                           →
                         </span>
                       </div>
-                    </SpotlightCard>
+                      </SpotlightCard>
+                    </div>
                   );
                 }
               )}
             </div>
           </div>
-
+          {containerModalOpen && (
+            <ContainerModal project={active_project_content} onClose={() => {
+              setContainerModalOpen(false)
+            }}/>
+          )}
           <Chat />
         </div>
       </div>

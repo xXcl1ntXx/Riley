@@ -181,9 +181,16 @@ export default function ProjectManager() {
             </div>
           </div>
           {containerModalOpen && (
-            <ContainerModal project={active_project_content} onClose={() => {
-              setContainerModalOpen(false)
-            }}/>
+            <ContainerModal
+              // project={active_project_content}
+              projects={all_projects}
+              active_project={active_project}
+              project_content={active_project_content}
+              onClose={() => {
+                handleUpdateProjects()
+                setContainerModalOpen(false)
+              }}
+            />
           )}
           {newProjectModalOpen && (
             <NewProject onClose={() => {
